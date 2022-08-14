@@ -3,6 +3,14 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
+    "inputs": [
+        {
+            "id": "argsPrompt",
+            "description": "Enter arguments for launch",
+            "default": "",
+            "type": "promptString",
+        }
+    ],
     "configurations": [
         {
             "type": "lldb",
@@ -19,7 +27,9 @@
                     "kind": "bin"
                 }
             },
-            "args": [],
+            "args": [
+                "${input:argsPrompt}"
+            ],
             "cwd": "${workspaceFolder}"
         },
         {
