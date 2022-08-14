@@ -4,33 +4,16 @@
 
 mod tests;
 mod types;
+mod utils;
 
 extern crate exitcode;
 
 use clap::Parser;
 use human_panic::setup_panic;
-use std::path::PathBuf;
 use std::process::ExitCode;
 use tabled::{Style, Table};
 use types::{Cli, FileData, FileInfo};
-
-macro_rules! exit {
-    ($message:expr,$code:expr) => {
-        eprintln!("{}", format!($message));
-        std::process::exit($code);
-    };
-}
-
-fn verify_file_path(file: &PathBuf) {
-    let path_display = file.display();
-    if !file.exists() {
-        exit!("File does not exist: '{path_display}'", exitcode::NOINPUT);
-    }
-
-    if file.is_dir() {
-        exit!("'{path_display}' is a directory.", exitcode::NOINPUT);
-    }
-}
+use utils::verify_file_path;
 
 #[tokio::main]
 async fn main() -> ExitCode {
