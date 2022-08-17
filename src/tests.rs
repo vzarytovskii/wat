@@ -2,7 +2,7 @@
 mod tests {
 
     extern crate test;
-    use crate::FileInfo;
+    use crate::FileView;
     use std::path::PathBuf;
 
     use test::Bencher;
@@ -10,7 +10,7 @@ mod tests {
     #[test]
     fn can_open_file() {
         let file = PathBuf::from("./Cargo.toml");
-        let mut file_info = FileInfo::new(&file);
+        let mut file_info = FileView::new(&file);
         let can_read = file_info.can_read();
 
         assert_eq!(true, can_read);
@@ -20,7 +20,7 @@ mod tests {
     fn open_file_and_read_len(b: &mut Bencher) {
         b.iter(|| {
             let file = PathBuf::from("./Cargo.toml");
-            let mut file_info = FileInfo::new(&file);
+            let mut file_info = FileView::new(&file);
             let can_read = file_info.can_read();
             assert_eq!(true, can_read);
         });

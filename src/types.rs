@@ -1,44 +1,31 @@
 use clap::Parser;
 
+use eyre::Report;
+use memmap2::{Mmap, MmapOptions};
 use std::fs::File;
-use std::io::{BufRead, BufReader};
 use std::path::PathBuf;
-use tabled::Tabled;
 
+// Cli is a struct that holds the command line arguments.
+// Pretty simple for time being, since we only require one argume - a path to a file we want to analyze.
 #[derive(Parser, Default, Debug)]
 pub struct Cli {
     #[clap(takes_value = true, value_parser, help = "Path to the file", value_hint = clap::ValueHint::FilePath, value_name = "PATH")]
     pub file_path: PathBuf,
 }
 
-pub struct FileInfo<'a> {
+pub struct FileView<'a> {
     pub path: &'a PathBuf,
-    reader: BufReader<File>,
+    pub view: Mmap,
 }
 
-impl<'a> FileInfo<'a> {
-    pub(crate) fn new(path: &'a PathBuf) -> Self {
-        Self {
+impl<'a> FileView<'a> {
+    pub(crate) fn new(path: &'a PathBuf) -> Result<Self, Report> {
+        let file = File::open(path)?;
+        let mapping = unsafe { MmapOptions::new().map(&file)? };
+
+        Ok(Self {
             path,
-            reader: File::open(path).map(BufReader::new).unwrap(),
-        }
+            view: mapping,
+        })
     }
-
-    pub(crate) fn can_read(&'a mut self) -> bool {
-        self.reader.has_data_left().unwrap()
-    }
-}
-
-#[derive(Tabled)]
-pub struct FileData<'a> {
-    #[tabled(rename = "File Name")]
-    pub file_name: &'a str,
-    #[tabled(rename = "File Path")]
-    pub file_path: &'a str,
-    #[tabled(rename = "File Type")]
-    pub file_type: &'a str,
-    #[tabled(rename = "Can read")]
-    pub can_read: bool,
-    #[tabled(rename = "Parsers")]
-    pub known_parsers: &'a str,
 }
