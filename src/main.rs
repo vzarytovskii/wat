@@ -13,6 +13,7 @@ use types::{Cli, FileView};
 #[tokio::main]
 async fn main() -> Result<(), Report> {
     setup_panic!();
+    color_eyre::install()?;
 
     let cli = Cli::parse();
 
