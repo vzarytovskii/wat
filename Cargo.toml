@@ -12,7 +12,7 @@ tokio = { version = "1.20.1", features = ["full"] }
 nom = { version = "7.1.1", features = ["std", "alloc"]}
 binary-layout = { version = "3.1.1" }
 eyre = { version = "0.6.8" }
-color-eyre = { version = "0.5" }
+color-eyre = { version = "0.6.2" }
 memmap2 = { version = "0.5.7" }
 
 [profile.dev]

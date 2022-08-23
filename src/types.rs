@@ -8,14 +8,14 @@ use std::path::PathBuf;
 // Cli is a struct that holds the command line arguments.
 // Pretty simple for time being, since we only require one argume - a path to a file we want to analyze.
 #[derive(Parser, Default, Debug)]
-pub struct Cli {
+pub(crate) struct Cli {
     #[clap(takes_value = true, value_parser, help = "Path to the file", value_hint = clap::ValueHint::FilePath, value_name = "PATH")]
-    pub file_path: PathBuf,
+    pub(crate) file_path: PathBuf,
 }
 
-pub struct FileView<'a> {
-    pub path: &'a PathBuf,
-    pub view: Mmap,
+pub(crate) struct FileView<'a> {
+    pub(crate) path: &'a PathBuf,
+    pub(crate) view: Mmap,
 }
 
 impl<'a> FileView<'a> {
