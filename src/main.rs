@@ -2,6 +2,8 @@
 #![feature(buf_read_has_data_left)]
 #![feature(test)]
 
+mod analyzer;
+mod analyzers;
 mod tests;
 mod types;
 
