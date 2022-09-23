@@ -43,7 +43,7 @@ body:
     label: Known workarounds
     description: Provide a description of the actual behaviour observed. 
   validations:
-    required: true
+    required: false
 - type: textarea
   attributes:
     label: Related information
