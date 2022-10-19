@@ -59,6 +59,8 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
           });
+          core.info(`Getting PR #${request.pull_number} from ${request.owner}/${request.repo}: ${result}`)
+
           return result.head.ref
     - name: Checkout repo
       uses: actions/checkout@v2
