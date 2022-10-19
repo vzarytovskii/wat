@@ -90,9 +90,9 @@ jobs:
         script: |
           // Probably, there's more universal way of getting outputs, but my gh-actions-fu is not that good.
           var output = ""
-          if (${{steps.command-extractor.outputs.result}} == 'fantomas') {
+          if ("${{steps.command-extractor.outputs.result}}" == 'fantomas') {
             output = join(${{steps.fantomas.outputs.*}}, '\n')
-          } else if(${{steps.command-extractor.outputs.result}} == 'xlf') {
+          } else if("${{steps.command-extractor.outputs.result}}" == 'xlf') {
             output = join(${{steps.xlf.outputs.*}}, '\n')
           }
           const body = `Ran ${{ steps.command-extractor.outputs.result }}: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}:\n:${output}`;
