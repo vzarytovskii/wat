@@ -73,7 +73,7 @@ jobs:
     - name: Process fantomas command
       if: steps.command-extractor.outputs.result == 'xlf'
       id: xlf
-      run: echo "Yay" >> README.md
+      run: echo "Running some tool" && echo "Yay" >> README.md
     - name: Commit and push changes
       if: steps.fantomas.outcome == 'success' || steps.xlf.outcome == 'success'
       run: |
