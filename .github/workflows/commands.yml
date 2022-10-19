@@ -59,9 +59,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
           });
-          console.dir(result)
-
-          return result.head.ref
+          return result.data.head.ref
     - name: Checkout repo
       uses: actions/checkout@v2
       with:
