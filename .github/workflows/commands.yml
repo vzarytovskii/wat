@@ -68,4 +68,37 @@ jobs:
         fetch-depth: 0
     - name: Process fantomas command
       if: steps.command-extractor.outputs.result == 'fantomas'
-      run: echo "Fantomas!"
+      id: fantomas
+      run: dotnet fantomas src -r
+    - name: Process fantomas command
+      if: steps.command-extractor.outputs.result == 'xlf'
+      id: xlf
+      run: dotnet build src\Compiler /t:UpdateXlf
+    - name: Commit and push changes
+      if: steps.fantomas.outcome == 'success' || steps.xlf.outcome == 'success'
+      run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git commit -a -m 'Automated command ran: ${{ steps.command-extractor.outputs.result }}
+
+          Co-authored-by: ${{ github.event.comment.user.login }} <${{ github.event.comment.user.id }}+${{ github.event.comment.user.login }}@users.noreply.github.com>'
+        git push
+    - name: Post command comment
+      if: steps.fantomas.outcome == 'success' || steps.xlf.outcome == 'success'
+      uses: actions/github-script@v3
+      with:
+        script: |
+          // Probably, there's more universal way of getting outputs, but my gh-actions-fu is not that good.
+          var output = ""
+          if (steps.command-extractor.outputs.result == 'fantomas') {
+            output = join(steps.fantomas.outputs.*, '\n')
+          } else if(steps.command-extractor.outputs.result == 'xlf') {
+            output = join(steps.fantomas.outputs.*, '\n')
+          }
+          const body = `Ran ${{ steps.command-extractor.outputs.result }}: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}:\n:${output}`;
+          await github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: body
+          });
