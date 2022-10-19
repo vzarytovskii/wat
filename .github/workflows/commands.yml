@@ -73,7 +73,7 @@ jobs:
     - name: Process fantomas command
       if: steps.command-extractor.outputs.result == 'xlf'
       id: xlf
-      run: dotnet build src\Compiler /t:UpdateXlf
+      run: echo "Yay"
     - name: Commit and push changes
       if: steps.fantomas.outcome == 'success' || steps.xlf.outcome == 'success'
       run: |
@@ -96,6 +96,18 @@ jobs:
             output = join(steps.fantomas.outputs.*, '\n')
           }
           const body = `Ran ${{ steps.command-extractor.outputs.result }}: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}:\n:${output}`;
+          await github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: body
+          });
+    - name: Post command failed comment
+      if: failed()
+      uses: actions/github-script@v3
+      with:
+        script: |
+          const body = `Failed to run ${{ steps.command-extractor.outputs.result }}: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}`;
           await github.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
