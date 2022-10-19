@@ -59,9 +59,10 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
           });
-          return result.data.head.ref
+          return { "ref": result.data.head.ref, "repository": result.data.repo.full_name};
     - name: Checkout repo
       uses: actions/checkout@v2
       with:
-        ref: ${{ steps.get-pr.outputs.result }}
+        repository: ${{ fromJson(steps.get-pr.outputs.result).repository }}
+        ref: ${{ fromJson(steps.get-pr.outputs.result).ref }}
         fetch-depth: 0
