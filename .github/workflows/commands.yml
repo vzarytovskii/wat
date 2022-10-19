@@ -103,7 +103,7 @@ jobs:
             body: body
           });
     - name: Post command failed comment
-      if: failed()
+      if: failure()
       uses: actions/github-script@v3
       with:
         script: |
