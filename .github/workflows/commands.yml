@@ -44,7 +44,7 @@ jobs:
           if (context.eventName !== "issue_comment") throw "Error: This action only works on issue_comment events.";
 
           // extract the command to run, allowed characters: a-z, A-Z, digits, hyphen, underscore
-          const regex = /^\/backport to ([a-zA-Z\d\-\_]+)/;
+          const regex = /^\/run ([a-zA-Z\d\-\_]+)/;
           command = regex.exec(context.payload.comment.body);
           if (command == null) throw "Error: No command found in the trigger phrase.";
 
