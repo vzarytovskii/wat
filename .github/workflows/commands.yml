@@ -66,3 +66,6 @@ jobs:
         repository: ${{ fromJson(steps.get-pr.outputs.result).repository }}
         ref: ${{ fromJson(steps.get-pr.outputs.result).ref }}
         fetch-depth: 0
+    - name: Process fantomas command
+      if: steps.target-branch-extractor.outputs.result == 'fantomas'
+      run: echo "Fantomas!"
