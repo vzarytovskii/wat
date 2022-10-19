@@ -91,9 +91,9 @@ jobs:
           // Probably, there's more universal way of getting outputs, but my gh-actions-fu is not that good.
           var output = ""
           if ("${{steps.command-extractor.outputs.result}}" == 'fantomas') {
-            output = join(${{steps.fantomas.outputs.*}}, '\n')
+            output = "${{steps.fantomas.outputs.result}}"
           } else if("${{steps.command-extractor.outputs.result}}" == 'xlf') {
-            output = join(${{steps.xlf.outputs.*}}, '\n')
+            output = "${{steps.xlf.outputs.result}}"
           }
           const body = `Ran ${{ steps.command-extractor.outputs.result }}: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}:\n:${output}`;
           await github.issues.createComment({
