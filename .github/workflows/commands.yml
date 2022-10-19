@@ -59,7 +59,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
           });
-          core.info(`${result}`)
+          core.info(`${toJSON(result)}`)
 
           return result.head.ref
     - name: Checkout repo
