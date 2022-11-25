@@ -14,5 +14,3 @@ impl Analyzer<'_> for BasicAnalyzer {
         Ok(AnalysisReport { message })
     }
 }
-
-inventory::collect!(dyn Analyzer<'_>);
