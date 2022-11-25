@@ -20,10 +20,6 @@ async fn main() -> Result<(), Report> {
 
     let cli = Cli::parse();
     let file_info = FileView::new(&cli.file_path)?;
-
-    println!("Path: {}", file_info.path.display());
-    println!("Len: {}", file_info.view.len());
-
     analyze(&file_info)?;
 
     Ok(())
