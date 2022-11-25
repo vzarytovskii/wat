@@ -4,7 +4,6 @@ use color_eyre::Report;
 use super::{AnalysisReport, Analyzer};
 
 pub(super) struct BasicAnalyzer;
-
 impl Analyzer<'_> for BasicAnalyzer {
     fn analyze(file_view: &FileView) -> Result<AnalysisReport, Report> {
         let message = format!(
@@ -15,3 +14,5 @@ impl Analyzer<'_> for BasicAnalyzer {
         Ok(AnalysisReport { message })
     }
 }
+
+inventory::collect!(dyn Analyzer<'_>);
