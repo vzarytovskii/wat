@@ -3,7 +3,6 @@
 #![feature(test)]
 
 mod analyzers;
-mod tests;
 mod types;
 
 use clap::Parser;
