@@ -19,7 +19,7 @@ async fn main() -> Result<(), Report> {
 
     let cli = Cli::parse();
     let file_info = FileView::new(&cli.file_path)?;
-    analyze(&file_info)?;
+    analyze(&file_info).await?;
 
     Ok(())
 }
