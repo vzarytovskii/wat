@@ -1,5 +1,7 @@
 use crate::FileView;
 use color_eyre::Report;
+use async_trait::async_trait;
+use color_eyre::owo_colors::OwoColorize;
 
 use super::{AnalysisReport, Analyzer};
 
@@ -44,11 +46,16 @@ impl From<&FileView<'_>> for Mark {
 }
 
 pub(super) struct BomAnalyzer;
+
+#[async_trait]
 impl Analyzer<'_> for BomAnalyzer {
-    fn analyze(file_view: &FileView) -> Result<AnalysisReport, Report> {
+    async fn analyze<'a>(file_view: &FileView) -> Result<AnalysisReport, Report> {
         let mark: Mark = file_view.into();
         let message = format!(
-            "BOM analyzer: \n\tDetected BOM: {}", mark.as_ref());
+            "{} \n\t{} {}",
+            "BOM analyzer:".bold().green(),
+            "Detected BOM:".bold(),
+            mark.as_ref().blue());
 
         Ok(AnalysisReport { message })
     }

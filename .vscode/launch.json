@@ -7,7 +7,7 @@
         {
             "id": "argsPrompt",
             "description": "Enter arguments for launch",
-            "default": "",
+            "default": "empty",
             "type": "promptString",
         }
     ],
