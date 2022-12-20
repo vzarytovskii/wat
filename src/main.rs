@@ -20,7 +20,7 @@ async fn main() -> Result<(), Report> {
     let cli = Cli::parse();
     let file_info = FileView::new(&cli.file_path)?;
 
-    // TODO: Move to some proper tui widget-based library (e.g. tui+tuirealm).
+    // TODO(?): Move to some proper tui widget-based library (e.g. tui+tuirealm).
     analyze(&file_info).await?;
 
     Ok(())

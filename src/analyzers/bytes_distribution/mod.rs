@@ -8,19 +8,20 @@ use super::{AnalysisReport, Analyzer};
 pub(super) struct BytesDistributionAnalyzer;
 
 #[async_trait]
+// TODO: Positional bytes distribution analyzer (which bytes are located at which positions in the file).
 impl Analyzer<'_> for BytesDistributionAnalyzer {
     async fn analyze<'a>(file_view: &FileView) -> Result<AnalysisReport, Report> {
-        let bytes : [u8; 256] = [0u8; 256];
+        let bytes : [u8; 256] = (0..=u8::MAX).collect::<Vec<_>>().try_into().expect("wrong size iterator");
+        let file_len = file_view.view.len() as f64;
         let distribution =
             bytes.map(|b| {
-                let count = bytecount::count(&file_view.view, b);
-                (b, count)
+                let count  = bytecount::count(&file_view.view.as_ref(), b)  as f64;
+                (format!("{:#04X?}", b), count / file_len * 100.0)
             });
-        // TODO: Use some fancier plotting library.
         let message = format!(
-            "{}",
+            "{}\n{:?}",
             "Bytes distribution analyzer: ".bold().green(),
-            );
+            distribution);
         Ok(AnalysisReport { message })
     }
 }
