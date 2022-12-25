@@ -1,7 +1,9 @@
 use crate::FileView;
-use color_eyre::Report;
 use async_trait::async_trait;
 use color_eyre::owo_colors::OwoColorize;
+use color_eyre::Report;
+use textplots::{Chart, Plot, Shape, utils};
+use terminal_size::{Width, Height, terminal_size};
 
 use super::{AnalysisReport, Analyzer};
 
@@ -11,17 +13,29 @@ pub(super) struct BytesDistributionAnalyzer;
 // TODO: Positional bytes distribution analyzer (which bytes are located at which positions in the file).
 impl Analyzer<'_> for BytesDistributionAnalyzer {
     async fn analyze<'a>(file_view: &FileView) -> Result<AnalysisReport, Report> {
-        let bytes : [u8; 256] = (0..=u8::MAX).collect::<Vec<_>>().try_into().expect("wrong size iterator");
-        let file_len = file_view.view.len() as f64;
-        let distribution =
-            bytes.map(|b| {
-                let count  = bytecount::count(&file_view.view.as_ref(), b)  as f64;
-                (format!("{:#04X?}", b), count / file_len * 100.0)
-            });
+        let bytes: [u8; 256] = (0..=u8::MAX)
+            .collect::<Vec<_>>()
+            .try_into()
+            .expect("wrong size iterator");
+        let file_len = file_view.view.len() as f32;
+        let distribution = bytes.map(|b| {
+            let count = bytecount::count(&file_view.view.as_ref(), b) as f32;
+            println!("{}: {} ", b, count / file_len * 100.0);
+            ( b as f32, count / file_len * 100.0)
+        });
+
+        let (Width(w), Height(h)) = terminal_size().expect("Unable to get terminal size");
+        // TODO: For now, it's a simple chart, but it should be a widget that can be rendered in the tui.
+        let chart =
+            Chart::new(w.into(), h.into(), 0.0, 255.0)
+                .lineplot(&Shape::Bars(&distribution))
+                .to_string();
+
         let message = format!(
-            "{}\n{:?}",
-            "Bytes distribution analyzer: ".bold().green(),
-            distribution);
+            "{}\n{  }",
+            "Bytes distribution (x = byte, y = %), automatic range for Y axis: ".bold().green(),
+            chart);
+
         Ok(AnalysisReport { message })
     }
 }

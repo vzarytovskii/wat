@@ -4,10 +4,10 @@ version = "0.0.1"
 edition = "2021"
 
 [dependencies]
-async-trait = { version = "0.1.59" }
+async-trait = { version = "0.1.60" }
 binary-layout = { version = "3.1.3" }
 bytecount = { version = "0.6.3" }
-clap = { version = "4.0.29", features = ["derive", "suggestions", "color", "wrap_help"] }
+clap = { version = "4.0.32", features = ["derive", "suggestions", "color", "wrap_help"] }
 color-eyre = { version = "0.6.2" }
 colored = { version = "2.0.0" }
 exitcode = { version = "1.1.2" }
@@ -15,11 +15,13 @@ eyre = { version = "0.6.8" }
 futures = { version = "0.3" }
 human-panic = { version = "1.0.3" }
 human-repr = { version = "1.0.1", features = ["iec", "space"] }
-inventory = { version = "0.3.2" }
+inventory = { version = "0.3.3" }
 lowcharts = { version = "0.5.2" }
+textplots = { version = "0.8.0" }
 memmap2 = { version = "0.5.8" }
 nom = { version = "7.1.1", features = ["std", "alloc"]}
 tabled = { version = "0.10.0", features = ["color"] }
+terminal_size = { version = "0.2.3" }
 tokio = { version = "1.23.0", features = ["full"] }
 
 [features]
