@@ -20,8 +20,7 @@ impl Analyzer<'_> for BytesDistributionAnalyzer {
         let file_len = file_view.view.len() as f32;
         let distribution = bytes.map(|b| {
             let count = bytecount::count(&file_view.view.as_ref(), b) as f32;
-            println!("{}: {} ", b, count / file_len * 100.0);
-            ( b as f32, count / file_len * 100.0)
+            (b as f32, count / file_len * 100.0)
         });
 
         let (Width(w), Height(h)) = terminal_size().expect("Unable to get terminal size");
