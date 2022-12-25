@@ -16,7 +16,6 @@ futures = { version = "0.3" }
 human-panic = { version = "1.0.3" }
 human-repr = { version = "1.0.1", features = ["iec", "space"] }
 inventory = { version = "0.3.3" }
-lowcharts = { version = "0.5.2" }
 textplots = { version = "0.8.0" }
 memmap2 = { version = "0.5.8" }
 nom = { version = "7.1.1", features = ["std", "alloc"]}
