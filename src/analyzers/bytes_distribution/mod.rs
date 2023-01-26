@@ -4,7 +4,7 @@ use crate::FileView;
 use async_trait::async_trait;
 use color_eyre::owo_colors::OwoColorize;
 use color_eyre::Report;
-use textplots::{Chart, Plot, Shape, utils};
+use textplots::{Chart, Plot, Shape};
 use terminal_size::{Width, Height, terminal_size};
 
 use super::{AnalysisReport, Analyzer};
