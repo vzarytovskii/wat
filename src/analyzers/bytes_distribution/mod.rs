@@ -21,7 +21,7 @@ impl Analyzer<'_> for BytesDistributionAnalyzer {
             .expect("wrong size iterator");
         let file_len = file_view.view.len() as f32;
         let distribution = bytes.map(|b| {
-            let count = bytecount::count(&file_view.view.as_ref(), b) as f32;
+            let count = bytecount::count(file_view.view.as_ref(), b) as f32;
             (b as f32, count / file_len * 100.0)
         });
 
@@ -31,7 +31,7 @@ impl Analyzer<'_> for BytesDistributionAnalyzer {
         // TODO: For now, it's a simple chart, but it should be a widget that can be rendered in the tui.
         let chart =
             Chart::new(width.into(), height.into(), 0.0, 255.0)
-                .lineplot(&Shape::Bars(&distribution))
+                .lineplot(&Shape::Points(&distribution))
                 .to_string();
         let message = format!(
             "{}\n{  }",
