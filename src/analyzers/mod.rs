@@ -1,7 +1,7 @@
 mod basic;
 mod bom;
 mod bytes_distribution;
-mod file_extension;
+mod file_mime_type;
 
 use crate::types::FileView;
 use async_trait::async_trait;
@@ -11,7 +11,7 @@ use futures::StreamExt;
 
 use self::{
     basic::BasicAnalyzer, bom::BomAnalyzer, bytes_distribution::BytesDistributionAnalyzer,
-    file_extension::FileExtensionAnalyzer,
+    file_mime_type::FileMimeTypeAnalyzer,
 };
 
 // A super-simple analysis report that just has a message for the analyzer. Can be some structured data in the future.
@@ -33,7 +33,7 @@ pub(super) async fn analyze(file_view: &FileView<'_>) -> Result<(), Report> {
         BasicAnalyzer::analyze,
         BomAnalyzer::analyze,
         BytesDistributionAnalyzer::analyze,
-        FileExtensionAnalyzer::analyze,
+        FileMimeTypeAnalyzer::analyze,
     ];
 
     let results = futures::stream::iter(analyzers.into_iter().map(|analyzer| analyzer(file_view)))
