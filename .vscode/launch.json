@@ -7,7 +7,7 @@
         {
             "id": "argsPrompt",
             "description": "Enter arguments for launch",
-            "default": "empty",
+            "default": "Cargo.toml",
             "type": "promptString",
         }
     ],
@@ -28,27 +28,9 @@
                 }
             },
             "args": [
+                "--",
                 "${input:argsPrompt}"
             ],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug unit tests in executable 'wat'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--bin=wat",
-                    "--package=wat"
-                ],
-                "filter": {
-                    "name": "wat",
-                    "kind": "bin"
-                }
-            },
-            "args": [],
             "cwd": "${workspaceFolder}"
         }
     ]

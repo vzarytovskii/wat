@@ -22,10 +22,7 @@ impl<'a> FileView<'a> {
     pub(crate) fn new(path: &'a PathBuf) -> Result<Self, Report> {
         Ok(Self {
             path,
-            view: unsafe { MmapOptions::map(
-                &MmapOptions::new(),
-                &File::open(path)?
-            )? },
+            view: unsafe { MmapOptions::map(&MmapOptions::new(), &File::open(path)?)? },
         })
     }
 }

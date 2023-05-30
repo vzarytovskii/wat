@@ -1,15 +1,18 @@
 mod basic;
 mod bom;
 mod bytes_distribution;
+mod file_extension;
 
 use crate::types::FileView;
 use async_trait::async_trait;
 use color_eyre::Report;
 
-use crate::analyzers::bytes_distribution::BytesDistributionAnalyzer;
 use futures::StreamExt;
 
-use self::{basic::BasicAnalyzer, bom::BomAnalyzer};
+use self::{
+    basic::BasicAnalyzer, bom::BomAnalyzer, bytes_distribution::BytesDistributionAnalyzer,
+    file_extension::FileExtensionAnalyzer,
+};
 
 // A super-simple analysis report that just has a message for the analyzer. Can be some structured data in the future.
 // TODO: Should be replace with tui::Widget instead
@@ -30,6 +33,7 @@ pub(super) async fn analyze(file_view: &FileView<'_>) -> Result<(), Report> {
         BasicAnalyzer::analyze,
         BomAnalyzer::analyze,
         BytesDistributionAnalyzer::analyze,
+        FileExtensionAnalyzer::analyze,
     ];
 
     let results = futures::stream::iter(analyzers.into_iter().map(|analyzer| analyzer(file_view)))

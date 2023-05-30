@@ -4,12 +4,15 @@ use crate::FileView;
 use async_trait::async_trait;
 use color_eyre::owo_colors::OwoColorize;
 use color_eyre::Report;
+use terminal_size::{terminal_size, Height, Width};
 use textplots::{Chart, Plot, Shape};
-use terminal_size::{Width, Height, terminal_size};
 
 use super::{AnalysisReport, Analyzer};
 
 pub(super) struct BytesDistributionAnalyzer;
+
+const DEFAULT_WIDTH: u16 = 32;
+const DEFAULT_HEIGHT: u16 = 32;
 
 #[async_trait]
 // TODO: Positional bytes distribution analyzer (which bytes are located at which positions in the file).
@@ -25,18 +28,21 @@ impl Analyzer<'_> for BytesDistributionAnalyzer {
             (b as f32, count / file_len * 100.0)
         });
 
-        let (Width(w), Height(h)) = terminal_size().expect("Unable to get terminal size");
-        let width = cmp::max(w, 32);
-        let height = cmp::max(h, 32);
+        let (Width(w), Height(h)) =
+            terminal_size().unwrap_or((Width(DEFAULT_WIDTH), Height(DEFAULT_HEIGHT)));
+        let width = cmp::max(w, DEFAULT_WIDTH);
+        let height = cmp::max(h, DEFAULT_HEIGHT);
         // TODO: For now, it's a simple chart, but it should be a widget that can be rendered in the tui.
-        let chart =
-            Chart::new(width.into(), height.into(), 0.0, 255.0)
-                .lineplot(&Shape::Points(&distribution))
-                .to_string();
+        let chart = Chart::new(width.into(), height.into(), 0.0, 255.0)
+            .lineplot(&Shape::Points(&distribution))
+            .to_string();
         let message = format!(
             "{}\n{  }",
-            "Bytes distribution (x = byte, y = %), automatic range for Y axis: ".bold().green(),
-            chart);
+            "Bytes distribution (x = byte, y = %), automatic range for Y axis: "
+                .bold()
+                .green(),
+            chart
+        );
 
         Ok(AnalysisReport { message })
     }
