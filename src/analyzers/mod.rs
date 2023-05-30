@@ -31,9 +31,9 @@ pub(super) async fn analyze(file_view: &FileView<'_>) -> Result<(), Report> {
     // ----: Or maybe a reverse registration, where analyzer registers itself in the registry.
     let analyzers = [
         BasicAnalyzer::analyze,
-        //BomAnalyzer::analyze,
-        //BytesDistributionAnalyzer::analyze,
-        //FileMimeTypeAnalyzer::analyze,
+        BomAnalyzer::analyze,
+        BytesDistributionAnalyzer::analyze,
+        FileMimeTypeAnalyzer::analyze,
     ];
 
     let results = futures::stream::iter(analyzers.into_iter().map(|analyzer| analyzer(file_view)))
