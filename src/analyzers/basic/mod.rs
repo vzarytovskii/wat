@@ -12,14 +12,22 @@ pub(super) struct BasicAnalyzer;
 #[async_trait]
 impl Analyzer<'_> for BasicAnalyzer {
     async fn analyze<'a>(file_view: &FileView) -> Result<AnalysisReport, Report> {
+        let extension = file_view
+            .path
+            .extension()
+            .unwrap_or("<NONE>".as_ref())
+            .to_str()
+            .unwrap_or("<NONE>");
         let message = format!(
-            "{}\n\t{} {} ({})\n\t{} {}\n\t{} {}\n\t{} {}",
+            "{}\n\t{} {} ({})\n\t{} {}\n\t{} {}\n\t{} {}\n\t{} {}",
             "Basic file analyzer:".bold().green(),
             "File length:".bold(),
             file_view.view.len().human_count_bytes().blue(),
             file_view.view.len().blue(),
             "File name:".bold(),
             file_view.path.file_name().unwrap().to_str().unwrap().blue(),
+            "File extension:".bold(),
+            extension.blue(),
             "Full path:".bold(),
             fs::canonicalize(file_view.path)
                 .unwrap_or_default()
