@@ -1,4 +1,5 @@
 mod mime_types;
+mod mz_mime_type_handler;
 
 use crate::FileView;
 use async_trait::async_trait;
