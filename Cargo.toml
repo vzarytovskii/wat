@@ -4,24 +4,24 @@ version = "0.0.1"
 edition = "2021"
 
 [dependencies]
-async-trait = { version = "0.1.68" }
-binary-layout = { version = "3.1.3" }
+async-trait = { version = "0.1.73" }
+binary-layout = { version = "3.2.0" }
 bytecount = { version = "0.6.3" }
-clap = { version = "4.3.0", features = ["derive", "suggestions", "color", "wrap_help"] }
+clap = { version = "4.3.23", features = ["derive", "suggestions", "color", "wrap_help"] }
 color-eyre = { version = "0.6.2" }
-colored = { version = "2.0.0" }
+colored = { version = "2.0.4" }
 exitcode = { version = "1.1.2" }
 eyre = { version = "0.6.8" }
 futures = { version = "0.3.28" }
-human-panic = { version = "1.1.4" }
+human-panic = { version = "1.1.5" }
 human-repr = { version = "1.1.0", features = ["iec", "space"] }
-inventory = { version = "0.3.6" }
+inventory = { version = "0.3.11" }
 textplots = { version = "0.8.0" }
-memmap2 = { version = "0.6.2" }
-tabled = { version = "0.12.0", features = ["color"] }
+memmap2 = { version = "0.7.1" }
+tabled = { version = "0.14.0", features = ["color"] }
 terminal_size = { version = "0.2.6" }
-tokio = { version = "1.28.2", features = ["full"] }
-phf = { version = "0.11.1", features = ["macros"] }
+tokio = { version = "1.32.0", features = ["full"] }
+phf = { version = "0.11.2", features = ["macros"] }
 enum-display = { version = "0.1.3" }
 
 [features]
