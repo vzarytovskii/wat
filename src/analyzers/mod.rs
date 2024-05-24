@@ -36,10 +36,11 @@ pub(super) async fn analyze(file_view: &FileView<'_>) -> Result<(), Report> {
         FileMimeTypeAnalyzer::analyze,
     ];
 
-    let results = futures::stream::iter(analyzers.into_iter().map(|analyzer| analyzer(file_view)))
-        .buffered(3) // TODO: Make configurable?
-        .collect::<Vec<_>>()
-        .await;
+    let results: Vec<Result<AnalysisReport, Report>> =
+        futures::stream::iter(analyzers.into_iter().map(|analyzer| analyzer(file_view)))
+            .buffered(3) // TODO: Make configurable?
+            .collect()
+            .await;
 
     results.into_iter().for_each(|result| match result {
         Ok(report) => println!("{}", report.message),
