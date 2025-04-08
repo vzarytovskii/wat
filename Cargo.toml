@@ -21,7 +21,7 @@ lowcharts = { version = "0.5.8" }
 bwdraw = { version = "0.1.2" }
 memmap2 = { version = "0.9.4" }
 terminal_size = { version = "0.3.0" }
-tokio = { version = "1.37.0", features = ["full"] }
+tokio = { version = "1.38.2", features = ["full"] }
 phf = { version = "0.11.2", features = ["macros"] }
 enum-display = { version = "0.1.4" }
 
